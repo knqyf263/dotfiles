@@ -3,7 +3,7 @@ export LANG=ja_JP.UTF-8
 bindkey -e
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-PATH=/Users/teppei/bin:$PATH
+PATH=$HOME/bin:$PATH
 
 ## alias
 alias "ll=ls -alh"

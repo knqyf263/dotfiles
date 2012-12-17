@@ -7,3 +7,5 @@ do
     ln -s $HOME/dotfiles/$file $HOME/$file
 done
 
+# tmuxのMac 用クリップボード設定
+ln -s $HOME/dotfiles/bin $HOME/bin
