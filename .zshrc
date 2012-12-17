@@ -4,8 +4,10 @@ bindkey -e
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 PATH=$HOME/bin:$PATH
+PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 
 ## alias
+alias "ls=gls -G -F --color=auto"
 alias "ll=ls -alh"
 alias -g L='| less'
 
@@ -70,5 +72,4 @@ bindkey "\\en" history-beginning-search-forward-end
 
 ## カラー表示と文字コード対策
 alias lv="lv -Osjis"
-alias ls="ls -G -F"                                 #(MacOS)
 zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
