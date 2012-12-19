@@ -35,6 +35,11 @@ set background=dark
 " " カラースキーマを Solarized にする
 "colorscheme solarized
 
+" vi との互換性OFF  
+set nocompatible  
+" ファイル形式の検出を無効にする  
+filetype off 
+
 " カレント行ハイライトON
 set cursorline
 " " アンダーラインを引く(color terminal)
@@ -42,6 +47,7 @@ highlight CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
 
 "行頭行末の左右移動で行をまたぐ
 set whichwrap=b,s,h,l,<,>,[,] 
+set backspace=indent,eol,start
 
 " CTRL-hjklでウィンドウ移動
 nnoremap <C-j> <C-w>j
@@ -49,10 +55,6 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <C-h> <C-w>h
 
-" vi との互換性OFF  
-set nocompatible  
-" ファイル形式の検出を無効にする  
-filetype off  
   
 " Vundle を初期化して  
 " Vundle 自身も Vundle で管理  
