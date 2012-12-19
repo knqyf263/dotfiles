@@ -7,7 +7,7 @@ PATH=$HOME/bin:$PATH
 PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 
 ## alias
-alias "ls=gls -G -F --color=auto"
+#alias "ls=gls -G -F --color=auto"
 alias "ll=ls -alh"
 alias -g L='| less'
 
@@ -33,6 +33,7 @@ zstyle ':completion:*' menu select=1
 setopt BASH_AUTO_LIST
 setopt LIST_AMBIGUOUS
 setopt AUTO_PUSHD
+setopt CDABLE_VARS
 
 ## cd打たなくてもディレクトリ移動
 setopt auto_cd 
