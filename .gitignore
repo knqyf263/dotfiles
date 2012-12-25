@@ -21,4 +21,4 @@ samples
 .vim/bundle
 .vim/.netrwhist
 .vimrc_sample
-.local..tmux.conf
+.local.tmux.conf
