@@ -4,7 +4,7 @@ bindkey -e
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 PATH=$HOME/bin:$PATH
-PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+#PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 
 ## alias
 #alias "ls=gls -G -F --color=auto"
@@ -74,3 +74,17 @@ bindkey "\\en" history-beginning-search-forward-end
 ## カラー表示と文字コード対策
 alias lv="lv -Osjis"
 zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
+
+## OSによって読み込む設定ファイルを変える
+case "${OSTYPE}" in
+# Mac(Unix)
+darwin*)
+# ここに設定
+	[ -f ~/dotfiles/.zshrc.osx ] && source ~/dotfiles/.zshrc.osx
+	;;
+# Linux
+linux*)
+	# ここに設定
+	[ -f ~/dotfiles/.zshrc.linux ] && source ~/dotfiles/.zshrc.linux
+	;;
+esac
