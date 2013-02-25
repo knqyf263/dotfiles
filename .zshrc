@@ -3,7 +3,7 @@ export LANG=ja_JP.UTF-8
 bindkey -e
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-PATH=$HOME/bin:/Users/teppei/Documents/workspace/android-sdk-macosx/tools:/Users/teppei/Documents/workspace/android-sdk-macosx/platform-tools:$PATH
+PATH=$HOME/bin:$HOME/Documents/workspace/android-sdk-macosx/tools:$HOME/Documents/workspace/android-sdk-macosx/platform-tools:$PATH
 #PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 
 ## alias
