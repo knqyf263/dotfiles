@@ -101,6 +101,9 @@ NeoBundle 'vim-scripts/Trinity'
 filetype indent on
 filetype plugin indent on   
 
+" 特定の拡張子のファイルが新規作成される際，テンプレートが読み込まれるように設定
+autocmd BufNewFile *.sh 0r $HOME/.vim/template/sh.txt
+
 " taglist
 set tags=tags
 let Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
