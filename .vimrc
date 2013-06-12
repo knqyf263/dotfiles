@@ -103,6 +103,7 @@ filetype plugin indent on
 
 " 特定の拡張子のファイルが新規作成される際，テンプレートが読み込まれるように設定
 autocmd BufNewFile *.sh 0r $HOME/.vim/template/sh.txt
+autocmd BufNewFile *.c 0r $HOME/.vim/template/c.txt
 
 " taglist
 set tags=tags
