@@ -2,50 +2,40 @@ set encoding=utf-8
 set number "行番号表示
 
 "===============================================
-"
 "" カラー設定
-
 "===============================================
 "
 "" シンタックスハイライトを有効にする
-
 syntax enable
 
 " 背景色を dark にする
 set background=dark
 "
-" " 輝度とコントラストは、最初はデフォルトを試すのがオススメです
-"
-" " 自分はコントラストだけ高くしています
-"
-" " (ここではコメントアウトしています)
-"
-"
-"
 " " 輝度を高くする
-"
 "let g:solarized_visibility = "high"
 "
 "
 "
 " " コントラストを高くする
-"
 "let g:solarized_contrast = "high"
 "
 "
 " " カラースキーマを Solarized にする
 "colorscheme solarized
-
-" vi との互換性OFF  
-set nocompatible  
-" ファイル形式の検出を無効にする  
-filetype off 
-
+"
+"===============================================
+"" 表示
+"===============================================
 " カレント行ハイライトON
 set cursorline
 " " アンダーラインを引く(color terminal)
 highlight CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
+" ディレクトリ閲覧時の表示がツリー形式
+let g:netrw_liststyle=3
 
+"===============================================
+"" 移動
+"===============================================
 "行頭行末の左右移動で行をまたぐ
 set whichwrap=b,s,h,l,<,>,[,] 
 set backspace=indent,eol,start
@@ -56,6 +46,26 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <C-h> <C-w>h
 
+"===============================================
+"" 検索
+"===============================================
+" インクリメンタルな検索
+set incsearch
+" 検索結果をハイライト表示する
+set hlsearch
+
+"===============================================
+"" その他
+"===============================================
+" 特定の拡張子のファイルが新規作成される際，テンプレートが読み込まれるように設定
+autocmd BufNewFile *.sh 0r $HOME/.vim/template/sh.txt
+autocmd BufNewFile *.c 0r $HOME/.vim/template/c.txt
+" vi との互換性OFF  
+set nocompatible  
+" ファイル形式の検出を無効にする  
+filetype off 
+" コマンドライン補完するときに補完候補を表示する
+set wildmenu
   
 " Vundle を初期化して  
 " Vundle 自身も Vundle で管理  
@@ -70,8 +80,9 @@ nnoremap <C-h> <C-w>h
 " github にないプラグイン  
 	  
 
-" プラグイン
-"
+"===============================================
+"" プラグイン
+"===============================================
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
   call neobundle#rc(expand('~/.vim/bundle/'))
@@ -101,9 +112,6 @@ NeoBundle 'vim-scripts/Trinity'
 filetype indent on
 filetype plugin indent on   
 
-" 特定の拡張子のファイルが新規作成される際，テンプレートが読み込まれるように設定
-autocmd BufNewFile *.sh 0r $HOME/.vim/template/sh.txt
-autocmd BufNewFile *.c 0r $HOME/.vim/template/c.txt
 
 " taglist
 set tags=tags
