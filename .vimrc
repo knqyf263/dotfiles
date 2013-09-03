@@ -60,6 +60,7 @@ set hlsearch
 " 特定の拡張子のファイルが新規作成される際，テンプレートが読み込まれるように設定
 autocmd BufNewFile *.sh 0r $HOME/.vim/template/sh.txt
 autocmd BufNewFile *.c 0r $HOME/.vim/template/c.txt
+autocmd BufNewFile *.py 0r $HOME/.vim/template/python.txt
 " vi との互換性OFF  
 set nocompatible  
 " ファイル形式の検出を無効にする  
