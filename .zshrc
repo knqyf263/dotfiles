@@ -8,8 +8,7 @@ PATH=$HOME/bin:$HOME/Documents/workspace/android-sdk-macosx/tools:$HOME/Document
 
 ## alias
 #alias "ls=gls -G -F --color=auto"
-alias "ll=ls -alhG"
-alias "ls=ls -G"
+alias "ll=ls -alh"
 alias -g L='| less'
 
 autoload -U compinit
