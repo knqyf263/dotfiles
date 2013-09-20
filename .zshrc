@@ -8,7 +8,8 @@ PATH=$HOME/bin:$HOME/Documents/workspace/android-sdk-macosx/tools:$HOME/Document
 
 ## alias
 #alias "ls=gls -G -F --color=auto"
-alias "ll=ls -alh"
+alias "ll=ls -alhG"
+alias "ls=ls -G"
 alias -g L='| less'
 
 autoload -U compinit
@@ -74,6 +75,7 @@ bindkey "\\en" history-beginning-search-forward-end
 ## カラー表示と文字コード対策
 alias lv="lv -Osjis"
 zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
+export LSCOLORS=gxfxcxdxbxegedabagacad
 
 ## OSによって読み込む設定ファイルを変える
 case "${OSTYPE}" in
