@@ -105,6 +105,10 @@ NeoBundle 'vim-scripts/SrcExpl'
 NeoBundle "vim-scripts/taglist.vim"
 " NERD_tree, taglist, srcexpl の統合
 NeoBundle 'vim-scripts/Trinity'
+" Vim上からコードを実行
+NeoBundle 'thinca/vim-quickrun'
+" quickrunを右側に表示
+set splitright
 
 " vim-powerline用設定
 "let g:Powerline_symbols = 'fancy'
