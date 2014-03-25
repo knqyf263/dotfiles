@@ -11,14 +11,6 @@ syntax enable
 " 背景色を dark にする
 set background=dark
 "
-" " 輝度を高くする
-"let g:solarized_visibility = "high"
-"
-"
-"
-" " コントラストを高くする
-"let g:solarized_contrast = "high"
-"
 "
 " " カラースキーマを Solarized にする
 "colorscheme solarized
@@ -49,10 +41,17 @@ nnoremap <C-h> <C-w>h
 "===============================================
 "" 検索
 "===============================================
-" インクリメンタルな検索
-set incsearch
-" 検索結果をハイライト表示する
-set hlsearch
+set ignorecase          " 大文字小文字を区別しない
+set smartcase           " 検索文字に大文字がある場合は大文字小文字を区別
+set incsearch           " インクリメンタルサーチ
+set hlsearch            " 検索マッチテキストをハイライト
+
+"===============================================
+"" Python
+"===============================================
+autocmd FileType python setl autoindent
+autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
 "===============================================
 "" その他
