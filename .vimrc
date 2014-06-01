@@ -46,9 +46,12 @@ set smartcase           " 検索文字に大文字がある場合は大文字小
 set incsearch           " インクリメンタルサーチ
 set hlsearch            " 検索マッチテキストをハイライト
 
+
 "===============================================
 "" Python
 "===============================================
+imap <F5> <nop>
+set pastetoggle=<F5> "ペーストするときにインデントさせない
 autocmd FileType python setl autoindent
 autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
@@ -64,6 +67,7 @@ autocmd BufNewFile *.py 0r $HOME/.vim/template/python.txt
 set nocompatible  
 " ファイル形式の検出を無効にする  
 filetype off 
+
 " コマンドライン補完するときに補完候補を表示する
 set wildmenu
   
@@ -106,15 +110,9 @@ NeoBundle "vim-scripts/taglist.vim"
 NeoBundle 'vim-scripts/Trinity'
 " Vim上からコードを実行
 NeoBundle 'thinca/vim-quickrun'
-" quickrunを右側に表示
-set splitright
+set splitright " quickrunを右側に表示
+let g:quickrun_config = {'*': {'hook/time/enable': '1'},} " 常に実行時間を表示する
 
-" vim-powerline用設定
-"let g:Powerline_symbols = 'fancy'
-
-" ファイル形式検出、プラグイン、インデントを ON  
-filetype indent on
-filetype plugin indent on   
 
 
 " taglist
@@ -152,3 +150,9 @@ nmap <F9>   :TrinityToggleSourceExplorer<CR>
 nmap <C-r>  :TrinityToggleTagList<CR> 
 " Open and close the NERD_tree.vim separately 
 nmap <C-a>  :TrinityToggleNERDTree<CR> 
+
+"===============================================
+"" インデント
+"===============================================
+filetype indent on " ファイル形式検出、プラグイン、インデントを ON  
+filetype plugin indent on   
