@@ -4,6 +4,8 @@ bindkey -e
 
 PATH=/usr/local/bin:$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting
 PATH=$HOME/bin:$HOME/Documents/workspace/android-sdk-macosx/tools:$HOME/Documents/workspace/android-sdk-macosx/platform-tools:$PATH
+# Maven用
+PATH=/Applications/eclipse/apache-maven-3.2.1/bin:$PATH
 #PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 
 ## alias
