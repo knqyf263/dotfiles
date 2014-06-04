@@ -2,10 +2,13 @@ export LANG=ja_JP.UTF-8
 
 bindkey -e
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+PATH=/usr/local/bin:/usr/local/sbin:$PATH # Add RVM to PATH for scripting
+PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting
 PATH=$HOME/bin:$HOME/Documents/workspace/android-sdk-macosx/tools:$HOME/Documents/workspace/android-sdk-macosx/platform-tools:$PATH
 # Maven用
 PATH=/Applications/eclipse/apache-maven-3.2.1/bin:$PATH
+# All commands have been installed with the prefix 'g'
+PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 #PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 
 ## alias
