@@ -17,6 +17,8 @@ export YARN_HOME=$HADOOP_HOME
 export HADOOP_CONF_DIR=$HADOOP_HOME/libexec/etc/hadoop
 export YARN_CONF_DIR=$HADOOP_HOME/libexec/etc/hadoop
 export MAHOUT_HOME=/Users/teppei/Documents/workspace/mahout
+# Mahout用
+PATH=$MAHOUT_HOME/bin:$PATH
 
 ## alias
 #alias "ls=gls -G -F --color=auto"
