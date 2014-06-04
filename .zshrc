@@ -9,7 +9,14 @@ PATH=$HOME/bin:$HOME/Documents/workspace/android-sdk-macosx/tools:$HOME/Document
 PATH=/Applications/eclipse/apache-maven/bin:$PATH
 # All commands have been installed with the prefix 'g'
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-#PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+
+export JAVA_HOME=`/usr/libexec/java_home`
+export HADOOP_INSTALL=/usr/local/Cellar/hadoop/2.4.0
+export HADOOP_HOME=$HADOOP_INSTALL
+export YARN_HOME=$HADOOP_HOME
+export HADOOP_CONF_DIR=$HADOOP_HOME/libexec/etc/hadoop
+export YARN_CONF_DIR=$HADOOP_HOME/libexec/etc/hadoop
+export MAHOUT_HOME=/Users/teppei/Documents/workspace/mahout
 
 ## alias
 #alias "ls=gls -G -F --color=auto"
