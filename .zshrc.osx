@@ -1,4 +1,6 @@
 PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 alias "ll=ls -alh"
 alias "ls=ls -G"
+alias fcd='source ~/bin/fcd.sh'
+
 export LSCOLORS=gxfxcxdxbxegedabagacad
