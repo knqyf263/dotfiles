@@ -20,7 +20,6 @@ export MAHOUT_HOME=/Users/teppei/Documents/workspace/mahout
 # Mahout用
 PATH=$MAHOUT_HOME/bin:$PATH
 
-export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home
 export PATH=$JAVA_HOME/bin:$PATH
 export HADOOP_HOME=/usr/local/Cellar/hadoop/2.4.0
 export HADOOP_CONF_DIR=/usr/local/Cellar/hadoop/2.4.0/libexec/etc/hadoop
