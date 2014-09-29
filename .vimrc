@@ -147,7 +147,7 @@ nmap <C-e>   :TrinityToggleAll<CR>
 " Open and close the srcexpl.vim separately 
 nmap <F9>   :TrinityToggleSourceExplorer<CR> 
 " Open and close the taglist.vim separately 
-nmap <C-r>  :TrinityToggleTagList<CR> 
+" nmap <C-r>  :TrinityToggleTagList<CR> 
 " Open and close the NERD_tree.vim separately 
 nmap <C-a>  :TrinityToggleNERDTree<CR> 
 
