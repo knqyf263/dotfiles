@@ -2,7 +2,7 @@ export LANG=ja_JP.UTF-8
 
 bindkey -e
 
-PATH=/usr/local/bin:/usr/local/sbin:$PATH # Add RVM to PATH for scripting
+PATH=/usr/local/bin:/usr/local/sbin:$PATH 
 PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting
 PATH=$HOME/bin:$HOME/Documents/workspace/android-sdk-macosx/tools:$HOME/Documents/workspace/android-sdk-macosx/platform-tools:$PATH
 # Maven用
@@ -19,6 +19,12 @@ export YARN_CONF_DIR=$HADOOP_HOME/libexec/etc/hadoop
 export MAHOUT_HOME=/Users/teppei/Documents/workspace/mahout
 # Mahout用
 PATH=$MAHOUT_HOME/bin:$PATH
+
+export PATH=$JAVA_HOME/bin:$PATH
+export HADOOP_HOME=/usr/local/Cellar/hadoop/2.4.0
+export HADOOP_CONF_DIR=/usr/local/Cellar/hadoop/2.4.0/libexec/etc/hadoop
+export PATH=$HADOOP_CONF_DIR:$HADOOP_HOME/bin:$PATH
+export MAHOUT_HOME=/Users/tetufuku94/Documents/workspace/mahout-distribution-0.9
 
 ## alias
 #alias "ls=gls -G -F --color=auto"
