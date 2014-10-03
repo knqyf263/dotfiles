@@ -24,6 +24,8 @@ PATH=$MAHOUT_HOME/bin:$PATH
 #alias "ls=gls -G -F --color=auto"
 alias "ll=ls -alh"
 alias -g L='| less'
+alias "airport=/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport"
+
 
 autoload -U compinit
 compinit
