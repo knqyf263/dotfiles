@@ -1,4 +1,4 @@
-#!/usr/local/Cellar/bash/4.2.39/bin/bash
+#!/usr/local/bin/bash
 
 export TMUX_POWERLINE_DIR_HOME="$(dirname $0)"
 
