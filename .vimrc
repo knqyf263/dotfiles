@@ -1,6 +1,11 @@
 set encoding=utf-8
 set number "行番号表示
 
+" release autogroup in MyAutoCmd
+augroup MyAutoCmd
+  autocmd!
+augroup END
+
 "===============================================
 "" カラー設定
 "===============================================
@@ -72,73 +77,96 @@ filetype off
 set wildmenu
   
 "===============================================
+"" NeoBundle
+"===============================================
+let s:noplugin = 0
+let s:bundle_root = expand('~/.vim/bundle')
+let s:neobundle_root = s:bundle_root . '/neobundle.vim'
+if !isdirectory(s:neobundle_root) || v:version < 702
+    " NeoBundleが存在しない、もしくはVimのバージョンが古い場合はプラグインを一切読み込まない
+    let s:noplugin = 1
+else
+    " NeoBundleを'runtimepath'に追加し初期化を行う
+    if has('vim_starting')
+        execute "set runtimepath+=" . s:neobundle_root
+    endif
+    call neobundle#rc(s:bundle_root)
+
+    " NeoBundle自身をNeoBundleで管理させる
+    NeoBundleFetch 'Shougo/neobundle.vim'
+
+    " 非同期通信を可能にする
+    " 'build'が指定されているのでインストール時に自動的に指定されたコマンドが実行され vimproc がコンパイルされる
+    NeoBundle "Shougo/vimproc", {
+        \ "build": {
+        \   "windows"   : "make -f make_mingw32.mak",
+        \   "cygwin"    : "make -f make_cygwin.mak",
+        \   "mac"       : "make -f make_mac.mak",
+        \   "unix"      : "make -f make_unix.mak",
+        \ }}
+
+    " originalrepos on github
+    NeoBundle 'Shougo/neocomplcache'
+    NeoBundle 'Shougo/neosnippet'
+    NeoBundle 'Shougo/neosnippet-snippets'
+    NeoBundle 'Shougo/vimfiler'
+    NeoBundle 'jpalardy/vim-slime'
+    NeoBundle 'scrooloose/syntastic'
+    NeoBundle 'altercation/vim-colors-solarized'
+    " ステータスラインをカッコよくする
+    NeoBundle 'Lokaltog/vim-powerline'
+
+    " インストールされていないプラグインのチェックおよびダウンロード
+    NeoBundleCheck
+endif
+
+"===============================================
 "" プラグイン
 "===============================================
-if has('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim
-  call neobundle#rc(expand('~/.vim/bundle/'))
-endif
-" originalrepos on github
-NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimproc'
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'Shougo/vimfiler'
-NeoBundle 'jpalardy/vim-slime'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'altercation/vim-colors-solarized'
-" ステータスラインをカッコよくする
-NeoBundle 'Lokaltog/vim-powerline'
- " tagsを利用したソースコード閲覧・移動補助機能 tagsファイルの自動生成
-NeoBundle 'vim-scripts/SrcExpl'
-" ソースコード上のメソッド宣言、変数宣言の一覧を表示
-NeoBundle "vim-scripts/taglist.vim"
-" NERD_tree, taglist, srcexpl の統合
-NeoBundle 'vim-scripts/Trinity'
+
+"===============================================
+"" quickrun
+"===============================================
 " Vim上からコードを実行
-NeoBundle 'thinca/vim-quickrun'
+NeoBundleLazy "thinca/vim-quickrun", {
+      \ "autoload": {
+      \   "mappings": [['nxo', '<Plug>(quickrun)']]
+      \ }}
+nmap <Leader>r <Plug>(quickrun)
 set splitright " quickrunを右側に表示
 let g:quickrun_config = {'*': {'hook/time/enable': '1'},} " 常に実行時間を表示する
-nmap <c-[>  :pop<CR>
+
+"===============================================
+"" Tagbar
+"===============================================
+NeoBundleLazy "majutsushi/tagbar", {
+      \ "autoload": { "commands": ["TagbarToggle"] }}
+if ! empty(neobundle#get("tagbar"))
+  " Map for toggle
+  nn <silent> <leader>t :TagbarToggle<CR>
+endif
+
+"===============================================
+"" SrcExpl
+"===============================================
+"NeoBundleLazy "wesleyche/SrcExpl", {
+"      \ "autoload" : { "commands": ["SrcExplToggle"]}}
+"if ! empty(neobundle#get("SrcExpl"))
+"  " Set refresh time in ms
+"  let g:SrcExpl_RefreshTime = 1000
+"  " Is update tags when SrcExpl is opened
+"  let g:SrcExpl_isUpdateTags = 1
+"  " Source Explorer Window Height
+"  let g:SrcExpl_winHeight = 14
+"  let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ." 
+"  " Mappings
+"  nn [srce] <Nop>
+"  nm <Space>e [srce]
+"  nn <silent> [srce]t :SrcExplToggle<CR>
+"endif
 
 
 
-" taglist
-set tags=tags
-let Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
-let Tlist_Show_One_File = 1 "現在編集中のソースのタグしか表示しない
-let Tlist_Exit_OnlyWiindow = 1 "taglist が最後のウインドウなら vim を閉じる
-let Tlist_Enable_Fold_Column = 1 " 折り畳み
-"let Tlist_Use_Right_Window = 1 
-"map <silent> <C-r> :TlistToggle<CR>
-let g:tlist_php_settings = 'php;c:class;d:constant;f:function'
-
-" NERDTree
-NeoBundle 'scrooloose/nerdtree.git'
-"nmap <silent> <C-e>      :NERDTreeToggle<CR>
-"vmap <silent> <C-e> <Esc>:NERDTreeToggle<CR>
-"omap <silent> <C-e>      :NERDTreeToggle<CR>
-"imap <silent> <C-e> <Esc>:NERDTreeToggle<CR>
-"cmap <silent> <C-e> <C-u>:NERDTreeToggle<CR>
-"autocmd vimenter * if !argc() | NERDTree | endif
-"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-"let g:NERDTreeIgnore=['\.clean$', '\.swp$', '\.bak$', '\~$']
-"let g:NERDTreeShowHidden=1
-"let g:NERDTreeMinimalUI=1
-"let g:NERDTreeDirArrows=0
-"let g:NERDTreeMouseMode=2
-
-
-" Trinity
-" Open and close all the three plugins on the same time 
-nmap <C-e>   :TrinityToggleAll<CR> 
-" Open and close the srcexpl.vim separately 
-nmap <F9>   :TrinityToggleSourceExplorer<CR> 
-" Open and close the taglist.vim separately 
-" nmap <C-r>  :TrinityToggleTagList<CR> 
-" Open and close the NERD_tree.vim separately 
-nmap <C-a>  :TrinityToggleNERDTree<CR> 
 
 "===============================================
 "" Unite
@@ -268,13 +296,6 @@ let g:neocomplcache_omni_patterns.cpp =
 \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 let g:neocomplcache_omni_patterns.perl =
 \ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-
-"===============================================
-"" auto-ctags
-"===============================================
-NeoBundle 'soramugi/auto-ctags.vim'
-let g:auto_ctags = 1
-
 
 "===============================================
 "" インデント
