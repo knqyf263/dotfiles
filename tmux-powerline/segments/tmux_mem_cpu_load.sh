@@ -6,7 +6,7 @@ run_segment() {
 		return
 	fi
 
-	stats=$(tmux-mem-cpu-load)
+	stats=$(tmux-mem-cpu-load | awk -F" " '{print $1,$2 "    " $3}')
 	if [ -n "$stats" ]; then
 		echo "$stats";
 	fi

@@ -1,7 +1,7 @@
 # Prints current branch in a VCS directory if it could be detected.
 
 # Source lib to get the function get_tmux_pwd
-source "${TMUX_POWERLINE_DIR_HOME}/lib/tmux_adapter.sh"
+source "${TMUX_POWERLINE_DIR_LIB}/tmux_adapter.sh"
 
 branch_symbol="⭠"
 git_colour="5"
@@ -38,18 +38,18 @@ __parse_git_branch() {
 	#git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ \[\1\]/'
 
 	# Quit if this is not a Git repo.
-    branch=$(git symbolic-ref HEAD 2> /dev/null)
-    if [[ -z $branch ]] ; then
-        # attempt to get short-sha-name
-        branch=":$(git rev-parse --short HEAD 2> /dev/null)"
-    fi
+	branch=$(git symbolic-ref HEAD 2> /dev/null)
+	if [[ -z $branch ]] ; then
+		# attempt to get short-sha-name
+		branch=":$(git rev-parse --short HEAD 2> /dev/null)"
+	fi
 	if [ "$?" -ne 0 ]; then
-        # this must not be a git repo
+		# this must not be a git repo
 		return
 	fi
 
-    # Clean off unnecessary information.
-    branch=${branch##*/}
+	# Clean off unnecessary information.
+	branch=${branch##*/}
 
 	echo  -n "#[fg=colour${git_colour}]${branch_symbol} #[fg=colour${TMUX_POWERLINE_CUR_SEGMENT_FG}]${branch}"
 }
@@ -61,16 +61,17 @@ __parse_svn_branch() {
 		return
 	fi
 
-	if [ ! -d ".svn/" ]; then
+	local svn_info=$(svn info 2>/dev/null)
+	if [ -z "${svn_info}" ]; then
 		return
 	fi
 
 
-	local svn_root=$(svn info 2>/dev/null | sed -ne 's#^Repository Root: ##p')
-	local svn_url=$(svn info 2>/dev/null | sed -ne 's#^URL: ##p')
+	local svn_root=$(echo "${svn_info}" | sed -ne 's#^Repository Root: ##p')
+	local svn_url=$(echo "${svn_info}" | sed -ne 's#^URL: ##p')
 
-	local branch=$(echo $svn_url | sed -e 's#^'"${svn_root}"'##g' | egrep -o '(tags|branches)/[^/]+|trunk' | egrep -o '[^/]+$' | awk '{print $1}')
-	echo  "#[fg=colour${svn_colour}]${branch_symbol} #[fg=colour${TMUX_POWERLINE_CUR_SEGMENT_FG}]${branch}"
+	local branch=$(echo "${svn_url}" | egrep -o '[^/]+$')
+	echo "#[fg=colour${svn_colour}]${branch_symbol} #[fg=colour${TMUX_POWERLINE_CUR_SEGMENT_FG}]${branch}"
 }
 
 __parse_hg_branch() {

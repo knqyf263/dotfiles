@@ -12,10 +12,16 @@ process_settings() {
 	fi
 
 	if [ -z "$TMUX_POWERLINE_THEME" ]; then
-		export TMUX_POWERLINE_THEME="${TMUX_POWERLINE_DEFAULT}"
+		export TMUX_POWERLINE_THEME="${TMUX_POWERLINE_THEME_DEFAULT}"
 	fi
-	#source "${TMUX_POWERLINE_DIR_THEMES}/${TMUX_POWERLINE_THEME}.sh"
-	source "${TMUX_POWERLINE_DIR_THEMES}/default.sh"
+
+	eval TMUX_POWERLINE_DIR_USER_SEGMENTS="$TMUX_POWERLINE_DIR_USER_SEGMENTS"
+	eval TMUX_POWERLINE_DIR_USER_THEMES="$TMUX_POWERLINE_DIR_USER_THEMES"
+	if [ -n "$TMUX_POWERLINE_DIR_USER_THEMES" ] && [ -f "${TMUX_POWERLINE_DIR_USER_THEMES}/${TMUX_POWERLINE_THEME}.sh" ]; then
+		source "${TMUX_POWERLINE_DIR_USER_THEMES}/${TMUX_POWERLINE_THEME}.sh"
+	else
+		source "${TMUX_POWERLINE_DIR_THEMES}/${TMUX_POWERLINE_THEME}.sh"
+	fi
 
 }
 
@@ -27,9 +33,16 @@ generate_default_rc() {
 # }
 
 # General {
+	# Show which segment fails and its exit code.
 	export TMUX_POWERLINE_DEBUG_MODE_ENABLED="${TMUX_POWERLINE_DEBUG_MODE_ENABLED_DEFAULT}"
+	# Use patched font symbols.
 	export TMUX_POWERLINE_PATCHED_FONT_IN_USE="${TMUX_POWERLINE_PATCHED_FONT_IN_USE_DEFAULT}"
+	# The theme to use.
 	export TMUX_POWERLINE_THEME="${TMUX_POWERLINE_THEME_DEFAULT}"
+	# Overlay dirctory to look for themes. There you can put your own themes outside the repo. Fallback will still be the "themes" directory in the repo.
+	export TMUX_POWERLINE_DIR_USER_THEMES=""
+	# Overlay dirctory to look for segments. There you can put your own segments outside the repo. Fallback will still be the "segments" directory in the repo.
+	export TMUX_POWERLINE_DIR_USER_SEGMENTS=""
 # }
 EORC
 
@@ -37,9 +50,9 @@ EORC
 		source "$segment"
 		if declare -f generate_segmentrc >/dev/null; then
 			segmentrc=$(generate_segmentrc | sed -e 's/^/\\t/g')
+			unset -f generate_segmentrc
 			local seg_name="${segment##*/}"
 			rccontents="${rccontents}\n\n# ${seg_name} {\n${segmentrc}\n# }"
-			unset -f generate_segmentrc
 		fi
 	done
 

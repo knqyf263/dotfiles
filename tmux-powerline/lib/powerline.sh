@@ -2,7 +2,8 @@
 
 print_powerline() {
 	local side="$1"
-	eval "local input_segments=(\"\${TMUX_POWERLINE_${side^^}_STATUS_SEGMENTS[@]}\")"
+	local upper_side=$(echo "$1" | tr '[:lower:]' '[:upper:]')
+	eval "local input_segments=(\"\${TMUX_POWERLINE_${upper_side}_STATUS_SEGMENTS[@]}\")"
 	local powerline_segments=()
 	local powerline_segment_contents=()
 
@@ -18,7 +19,7 @@ print_powerline() {
 __process_segment_defaults() {
 	for segment_index in "${!input_segments[@]}"; do
 		local input_segment=(${input_segments[$segment_index]})
-		eval "local default_separator=\$TMUX_POWERLINE_DEFAULT_${side^^}SIDE_SEPARATOR"
+		eval "local default_separator=\$TMUX_POWERLINE_DEFAULT_${upper_side}SIDE_SEPARATOR"
 
 		powerline_segment_with_defaults=(
 			${input_segment[0]:-"no_script"} \
@@ -34,7 +35,13 @@ __process_segment_defaults() {
 __process_scripts() {
 	for segment_index in "${!powerline_segments[@]}"; do
 		local powerline_segment=(${powerline_segments[$segment_index]})
-		local script="$TMUX_POWERLINE_DIR_SEGMENTS/${powerline_segment[0]}.sh"
+
+		if [ -n "$TMUX_POWERLINE_DIR_USER_SEGMENTS" ] && [ -f "$TMUX_POWERLINE_DIR_USER_SEGMENTS/${powerline_segment[0]}.sh" ] ; then
+			local script="$TMUX_POWERLINE_DIR_USER_SEGMENTS/${powerline_segment[0]}.sh"
+		else
+			local script="$TMUX_POWERLINE_DIR_SEGMENTS/${powerline_segment[0]}.sh"
+		fi
+
 		export TMUX_POWERLINE_CUR_SEGMENT_BG="${powerline_segment[1]}"
 		export TMUX_POWERLINE_CUR_SEGMENT_FG="${powerline_segment[2]}"
 		source "$script"
@@ -60,7 +67,11 @@ __process_scripts() {
 __process_colors() {
 	for segment_index in "${!powerline_segments[@]}"; do
 		local powerline_segment=(${powerline_segments[$segment_index]})
-		local next_segment=(${powerline_segments[segment_index + 1]})
+	 	# Find the next segment that produces content (i.e. skip empty segments).
+		for next_segment_index in $(eval echo {$(($segment_index + 1))..${#powerline_segments}}) ; do
+			[[ -n ${powerline_segments[next_segment_index]} ]] && break
+		done
+		local next_segment=(${powerline_segments[$next_segment_index]})
 
 		if [ $side == 'left' ]; then
 			powerline_segment[4]=${next_segment[1]:-$TMUX_POWERLINE_DEFAULT_BACKGROUND_COLOR}

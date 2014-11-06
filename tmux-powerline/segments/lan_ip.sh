@@ -1,36 +1,32 @@
-# Prints the local network IP address for a staticly defined NIC or search for an IP address on all active NICs.
+# Prints the local network IPv4 address for a statically defined NIC or search for an IPv4 address on all active NICs.
 
 run_segment() {
-	# TODO fix the mac part so it also can search for interfaces like the Linux one can.
-	if shell_is_osx; then
-		nic0="en0"
-		nic1="en1"
-
-		# Get wired lan IP.
-		lan_ip=$(/sbin/ifconfig $nic0 2>/dev/null | grep 'inet ' | awk '{print $2}')
-		# If no wired lan, get wireless lan IP.
-		if [ -z "$lan_ip" ]; then
-			lan_ip=$(/sbin/ifconfig $nic1 2>/dev/null | grep 'inet ' | awk '{print $2}')
-		fi
+	if shell_is_bsd || shell_is_osx ; then
+		all_nics=$(ifconfig 2>/dev/null | awk -F':' '/^[a-z]/ && !/^lo/ { print $1 }')
+		for nic in ${all_nics[@]}; do
+			ipv4s_on_nic=$(ifconfig ${nic} 2>/dev/null | awk '$1 == "inet" { print $2 }')
+			for lan_ip in ${ipv4s_on_nic[@]}; do
+				[[ -n "${lan_ip}" ]] && break
+			done
+			[[ -n "${lan_ip}" ]] && break
+		done
 	else
 		# Get the names of all attached NICs.
-		all_nics=$(ip addr show | cut -d ' ' -f2 | tr -d :)
+		all_nics="$(ip addr show | cut -d ' ' -f2 | tr -d :)"
 		all_nics=(${all_nics[@]//lo/})	 # Remove lo interface.
 
-		for nic in ${all_nics[@]}; do
+		for nic in "${all_nics[@]}"; do
 			# Parse IP address for the NIC.
-			lan_ip=$(ip addr show ${nic} | grep '\<inet\>' | tr -s ' ' | cut -d ' ' -f3)
+			lan_ip="$(ip addr show ${nic} | grep '\<inet\>' | tr -s ' ' | cut -d ' ' -f3)"
 			# Trim the CIDR suffix.
-			lan_ip=${lan_ip%/*}
+			lan_ip="${lan_ip%/*}"
+			# Only display the last entry
+			lan_ip="$(echo "$lan_ip" | tail -1)"
 
 			[ -n "$lan_ip" ] && break
 		done
 	fi
 
-	if [ -n "$lan_ip" ]; then
-		echo "ⓛ ${lan_ip}"
-		return 0
-	else
-		return 1
-	fi
+	echo "ⓛ ${lan_ip-N/a}"
+	return 0
 }

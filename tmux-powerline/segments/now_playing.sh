@@ -2,20 +2,19 @@
 
 source "${TMUX_POWERLINE_DIR_LIB}/text_roll.sh"
 
-TMUX_POWERLINE_SEG_NOW_PLAYING_MUSIC_PLAYER_DEFAULT="mpd"
 TMUX_POWERLINE_SEG_NOW_PLAYING_MAX_LEN_DEFAULT="40"
 TMUX_POWERLINE_SEG_NOW_PLAYING_TRIM_METHOD_DEFAULT="trim"
 TMUX_POWERLINE_SEG_NOW_PLAYING_ROLL_SPEED_DEFAULT="2"
 TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_HOST_DEFAULT="localhost"
 TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_PORT_DEFAULT="6600"
 TMUX_POWERLINE_SEG_NOW_PLAYING_LASTFM_UPDATE_PERIOD_DEFAULT="30"
-
-lastfm_tmp_file="${TMUX_POWERLINE_DIR_TEMPORARY}/np_lastfm.txt" # Cache file.
+TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_SIMPLE_FORMAT_DEFAULT="%artist% - %title%"
+TMUX_POWERLINE_SEG_NOW_PLAYING_NOTE_CHAR_DEFAULT="♫"
 
 generate_segmentrc() {
 	read -d '' rccontents  << EORC
-# Music player to use. Can be any of {audacious, banshee, cmus, itunes, lastfm, mocp, mpd, mpd_simple, rdio, rhythmbox, spotify, spotify_wine}.
-export TMUX_POWERLINE_SEG_NOW_PLAYING_MUSIC_PLAYER="${TMUX_POWERLINE_SEG_NOW_PLAYING_MUSIC_PLAYER_DEFAULT}"
+# Music player to use. Can be any of {audacious, banshee, cmus, itunes, lastfm, mocp, mpd, mpd_simple, pithos, rdio, rhythmbox, spotify, spotify_wine}.
+export TMUX_POWERLINE_SEG_NOW_PLAYING_MUSIC_PLAYER=""
 # Maximum output length.
 export TMUX_POWERLINE_SEG_NOW_PLAYING_MAX_LEN="${TMUX_POWERLINE_SEG_NOW_PLAYING_MAX_LEN_DEFAULT}"
 # How to handle too long strings. Can be {trim, roll}.
@@ -27,17 +26,26 @@ export TMUX_POWERLINE_SEG_NOW_PLAYING_ROLL_SPEED="${TMUX_POWERLINE_SEG_NOW_PLAYI
 export TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_HOST="${TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_HOST_DEFAULT}"
 # Port the MPD server is running on.
 export TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_PORT="${TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_PORT_DEFAULT}"
+# Song display format for mpd_simple. See mpc(1) for delimiters.
+export TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_SIMPLE_FORMAT="${TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_SIMPLE_FORMAT_DEFAULT}"
 
 # Username for Last.fm if that music player is used.
 export TMUX_POWERLINE_SEG_NOW_PLAYING_LASTFM_USERNAME=""
 # How often in seconds to update the data from last.fm.
 export TMUX_POWERLINE_SEG_NOW_PLAYING_LASTFM_UPDATE_PERIOD="${TMUX_POWERLINE_SEG_NOW_PLAYING_LASTFM_UPDATE_PERIOD_DEFAULT}"
+# Fancy char to display before now playing track
+export TMUX_POWERLINE_SEG_NOW_PLAYING_NOTE_CHAR="${TMUX_POWERLINE_SEG_NOW_PLAYING_NOTE_CHAR_DEFAULT}"
 EORC
 	echo "$rccontents"
 }
 
 run_segment() {
 	__process_settings
+
+	if [ -z "$TMUX_POWERLINE_SEG_NOW_PLAYING_MUSIC_PLAYER" ]; then
+		return 1
+	fi
+
 	local np
 	case "$TMUX_POWERLINE_SEG_NOW_PLAYING_MUSIC_PLAYER" in
 		"audacious")  np=$(__np_audacious) ;;
@@ -48,14 +56,18 @@ run_segment() {
 		"mocp")  np=$(__np_mocp) ;;
 		"mpd")  np=$(__np_mpd) ;;
 		"mpd_simple")  np=$(__np_mpd_simple) ;;
+		"pithos") np=$(__np_pithos) ;;
 		"rdio")  np=$(__np_rdio) ;;
 		"rhythmbox")  np=$(__np_rhythmbox) ;;
 		"spotify")  np=$(__np_spotify) ;;
 		"spotify_wine")  np=$(__np_spotify_native) ;;
+		*)
+			echo "Unknown music player type [${TMUX_POWERLINE_SEG_NOW_PLAYING_MUSIC_PLAYER}]";
+			return 1
 	esac
-	local exitcode="$?" # TODO works?
-	if [ "$exitcode" -ne 0 ]; then
-		return exitcode
+	local exitcode="$?"
+	if [ "${exitcode}" -ne 0 ]; then
+		return ${exitcode}
 	fi
 	if [ -n "$np" ]; then
 		case "$TMUX_POWERLINE_SEG_NOW_PLAYING_TRIM_METHOD" in
@@ -66,15 +78,12 @@ run_segment() {
 				np=${np:0:TMUX_POWERLINE_SEG_NOW_PLAYING_MAX_LEN}
 				;;
 		esac
-		echo "♫ ${np}"
+		echo "${TMUX_POWERLINE_SEG_NOW_PLAYING_NOTE_CHAR} ${np}"
 	fi
 	return 0
 }
 
 __process_settings() {
-	if [ -z "$TMUX_POWERLINE_SEG_NOW_PLAYING_MUSIC_PLAYER" ]; then
-		export TMUX_POWERLINE_SEG_NOW_PLAYING_MUSIC_PLAYER="${TMUX_POWERLINE_SEG_NOW_PLAYING_MUSIC_PLAYER_DEFAULT}"
-	fi
 	if [ -z "$TMUX_POWERLINE_SEG_NOW_PLAYING_MAX_LEN" ]; then
 		export TMUX_POWERLINE_SEG_NOW_PLAYING_MAX_LEN="${TMUX_POWERLINE_SEG_NOW_PLAYING_MAX_LEN_DEFAULT}"
 	fi
@@ -90,8 +99,14 @@ __process_settings() {
 	if [ -z "$TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_PORT" ]; then
 		export TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_PORT="${TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_PORT_DEFAULT}"
 	fi
+	if [ -z "$TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_SIMPLE_FORMAT" ]; then
+		export TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_SIMPLE_FORMAT="${TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_SIMPLE_FORMAT_DEFAULT}"
+	fi
 	if [ -z "$TMUX_POWERLINE_SEG_NOW_PLAYING_LASTFM_UPDATE_PERIOD" ]; then
 		export TMUX_POWERLINE_SEG_NOW_PLAYING_LASTFM_UPDATE_PERIOD="${TMUX_POWERLINE_SEG_NOW_PLAYING_LASTFM_UPDATE_PERIOD_DEFAULT}"
+	fi
+	if [ -z "$TMUX_POWERLINE_SEG_NOW_PLAYING_NOTE_CHAR" ]; then
+		export TMUX_POWERLINE_SEG_NOW_PLAYING_NOTE_CHAR="${TMUX_POWERLINE_SEG_NOW_PLAYING_NOTE_CHAR_DEFAULT}"
 	fi
 }
 
@@ -101,10 +116,26 @@ __np_mpd() {
 	if [ ! -x "np_mpd" ]; then
 		make clean np_mpd &>/dev/null
 	fi
-	
+
+	if [ ! -x "np_mpd" ]; then
+		return 2
+	fi
+
 	np=$(MPD_HOST="$TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_HOST" MPD_PORT="$TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_PORT" ./np_mpd)
 	echo "$np"
 }
+
+__np_mpd_simple() {
+	np=$(MPD_HOST="$TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_HOST" MPD_PORT="$TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_PORT" mpc current -f "$TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_SIMPLE_FORMAT" 2>&1)
+	if [ $? -eq 0 ] && [ -n "$np" ]; then
+		mpc | grep "paused" > /dev/null
+		if [ $? -eq 0 ]; then
+			return 1
+		fi
+		echo "$np"
+	fi
+}
+
 
 __np_audacious() {
 	audacious_pid=$(pidof audacious)
@@ -153,27 +184,35 @@ __np_itunes() {
 }
 
 __np_lastfm() {
+	local tmp_file="${TMUX_POWERLINE_DIR_TEMPORARY}/np_lastfm.txt"
 	if [ -f "$tmp_file" ]; then
-		if shell_is_osx; then
+		if shell_is_osx || shell_is_bsd; then
 			last_update=$(stat -f "%m" ${tmp_file})
-		else
+		elif shell_is_linux; then
 			last_update=$(stat -c "%Y" ${tmp_file})
 		fi
 		time_now=$(date +%s)
 
-		up_to_date=$(echo "(${time_now}-${last_update}) < ${update_period}" | bc)
+		up_to_date=$(echo "(${time_now}-${last_update}) < ${TMUX_POWERLINE_SEG_NOW_PLAYING_LASTFM_UPDATE_PERIOD}" | bc)
 		if [ "$up_to_date" -eq 1 ]; then
 			np=$(cat ${tmp_file})
 		fi
 	fi
 
 	if [ -z "$np" ]; then
-		np=$(curl --max-time 2 -s  http://ws.audioscrobbler.com/1.0/user/${username}/recenttracks.txt | head -n 1 | sed -e 's/^[0-9]*,//' | sed 's/\xe2\x80\x93/-/')
+		np=$(curl --max-time 2 -s  http://ws.audioscrobbler.com/1.0/user/${TMUX_POWERLINE_SEG_NOW_PLAYING_LASTFM_USERNAME}/recenttracks.txt | head -n 1 | sed -e 's/^[0-9]*,//' | sed 's/\xe2\x80\x93/-/')
 		if [ "$?" -eq "0" ] && [ -n "$np" ]; then
 			echo "${np}" > $tmp_file
 		fi
 	fi
 	echo "$np"
+}
+
+__np_pithos() {
+	if [ "$(dbus-send --reply-timeout=10 --print-reply --dest=net.kevinmehall.Pithos /net/kevinmehall/Pithos net.kevinmehall.Pithos.IsPlaying 2>/dev/null | grep boolean | cut -d' ' -f5)" == "true" ]; then
+		np=$(${TMUX_POWERLINE_DIR_SEGMENTS}/np_pithos.py)
+		echo "$np"
+	fi
 }
 
 __np_mocp() {
@@ -185,20 +224,6 @@ __np_mocp() {
         	echo "$np"
     	fi
 	fi
-}
-
-# Simple np script for mpd. Works with streams!
-# Only tested on OS X... should work the same way on other platforms though.
-__np_mpd_simple() {
-	np=$(mpc current 2>&1)
-	if [ $? -eq 0 ] && [ -n "$np" ]; then
-		mpc | grep "paused" > /dev/null
-		if [ $? -eq 0 ]; then
-			return 1
-		fi
-		echo "$np"
-	fi
-	return 1
 }
 
 __np_rdio() {
