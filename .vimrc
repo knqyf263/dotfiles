@@ -50,6 +50,7 @@ set ignorecase          " 大文字小文字を区別しない
 set smartcase           " 検索文字に大文字がある場合は大文字小文字を区別
 set incsearch           " インクリメンタルサーチ
 set hlsearch            " 検索マッチテキストをハイライト
+nnoremap <Esc><Esc> :noh<Return>
 
 
 "===============================================
