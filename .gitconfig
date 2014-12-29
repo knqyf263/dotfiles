@@ -3,3 +3,5 @@
 	email = put.a.feud.pike011235@gmail.com
 [push]
 	default = simple
+[core]
+	editor = /usr/bin/vim

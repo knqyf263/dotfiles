@@ -3,7 +3,7 @@
 # tmuxのMac 用クリップボード設定
 ln -s $HOME/dotfiles/bin $HOME/bin
 
-DOT_FILES=( .zsh .zshrc* .gitconfig .dir_colors .vimrc .vim .tmux.conf .tmux-powerlinerc )
+DOT_FILES=( .zsh .zshrc* .gitconfig .dir_colors .vimrc .vim .tmux.conf .tmux-powerlinerc .ideavimrc)
 
 for file in ${DOT_FILES[@]}
 do
