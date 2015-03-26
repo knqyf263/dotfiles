@@ -69,6 +69,7 @@ autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
 autocmd BufNewFile *.sh 0r $HOME/.vim/template/sh.txt
 autocmd BufNewFile *.c 0r $HOME/.vim/template/c.txt
 autocmd BufNewFile *.py 0r $HOME/.vim/template/python.txt
+autocmd BufNewFile *.pl 0r $HOME/.vim/template/perl.txt
 " vi との互換性OFF  
 set nocompatible  
 " ファイル形式の検出を無効にする  
