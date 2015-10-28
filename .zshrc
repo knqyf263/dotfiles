@@ -5,8 +5,17 @@ bindkey -e
 PATH=/usr/local/bin:/usr/local/sbin:$PATH 
 PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting
 PATH=$HOME/bin:$HOME/Documents/workspace/android-sdk-macosx/tools:$HOME/Documents/workspace/android-sdk-macosx/platform-tools:$PATH
+export ANDROID_SDK_PATH=$HOME/Library/Android/sdk
+export ANDROID_SDK_HOME=$ANDROID_SDK_PATH/platform-tools
+export PATH=$ANDROID_SDK_PATH:$ANDROID_SDK_HOME:$PATH
 # All commands have been installed with the prefix 'g'
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+export ANDROID_NDK_PATH=/Users/teppei.fukuda/Development/android-ndk-r10e
+export ANDROID_NDK_ROOT=/Users/teppei.fukuda/Development/android-ndk-r10e
+export ANDROID_TOOLCHAIN_ROOT=$HOME/android_toolchains
+export ANDROID_TOOLCHAIN_PATH=$ANDROID_TOOLCHAIN_ROOT/toolchains_mips/bin:$ANDROID_TOOLCHAIN_ROOT/toolchains_x86/bin:$ANDROID_TOOLCHAIN_ROOT/toolchains_arm/bin
+#export ANDROID_TOOLCHAIN_ROOT="$HOME/android_toolchains/toolchains_mips":$ANDROID_TOOLCHAIN_ROOT  
+export PATH=$PATH:$ANDROID_TOOLCHAIN_PATH
 
 ## alias
 #alias "ls=gls -G -F --color=auto"
