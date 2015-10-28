@@ -6,10 +6,10 @@ PATH=/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting
 PATH=$HOME/bin:$HOME/Documents/workspace/android-sdk-macosx/tools:$HOME/Documents/workspace/android-sdk-macosx/platform-tools:$PATH
 # All commands have been installed with the prefix 'g'
-PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+#PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
 ## alias
-#alias "ls=gls -G -F --color=auto"
+alias "ls=gls -G -F --color=auto"
 alias "ll=ls -alh"
 alias -g L='| less'
 alias "airport=/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport"
@@ -81,15 +81,15 @@ zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'c
 export LSCOLORS=gxfxcxdxbxegedabagacad
 
 ## OSによって読み込む設定ファイルを変える
-case "${OSTYPE}" in
-# Mac(Unix)
-darwin*)
-# ここに設定
-	[ -f ~/dotfiles/.zshrc.osx ] && source ~/dotfiles/.zshrc.osx
-	;;
-# Linux
-linux*)
-	# ここに設定
-	[ -f ~/dotfiles/.zshrc.linux ] && source ~/dotfiles/.zshrc.linux
-	;;
-esac
+#case "${OSTYPE}" in
+## Mac(Unix)
+#darwin*)
+## ここに設定
+#	[ -f ~/dotfiles/.zshrc.osx ] && source ~/dotfiles/.zshrc.osx
+#	;;
+## Linux
+#linux*)
+#	# ここに設定
+#	[ -f ~/dotfiles/.zshrc.linux ] && source ~/dotfiles/.zshrc.linux
+#	;;
+#esac
