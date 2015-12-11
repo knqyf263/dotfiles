@@ -21,3 +21,9 @@ cmake .
 make
 sudo make install
 rm -rf ~/dotfiles/tmux-mem-cpu-load/
+
+# Ruby関連
+# http://qiita.com/mogulla3/items/42a7f6c73fa4a90b1df3
+
+# for rsense
+source ./scripts/rsense.sh

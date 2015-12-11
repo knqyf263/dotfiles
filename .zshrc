@@ -15,7 +15,7 @@ export ANDROID_NDK_ROOT=/Users/teppei.fukuda/Development/android-ndk-r10e
 export ANDROID_TOOLCHAIN_ROOT=$HOME/android_toolchains
 export ANDROID_TOOLCHAIN_PATH=$ANDROID_TOOLCHAIN_ROOT/toolchains_mips/bin:$ANDROID_TOOLCHAIN_ROOT/toolchains_x86/bin:$ANDROID_TOOLCHAIN_ROOT/toolchains_arm/bin
 #export ANDROID_TOOLCHAIN_ROOT="$HOME/android_toolchains/toolchains_mips":$ANDROID_TOOLCHAIN_ROOT  
-export PATH=$PATH:$ANDROID_TOOLCHAIN_PATH
+export PATH=$PATH:$ANDROID_TOOLCHAIN_PATH:$ANDROID_NDK_PATH
 
 ## alias
 alias "ls=gls -G -F --color=auto"
