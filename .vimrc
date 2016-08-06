@@ -125,7 +125,10 @@ else
     NeoBundle 'tpope/vim-endwise'
     " Ruby補完
     NeoBundle 'marcus/rsense'
-    NeoBundle 'supermomonga/neocomplete-rsense.vim'
+"    NeoBundle 'supermomonga/neocomplete-rsense.vim'
+
+    NeoBundle 'Shougo/unite.vim'
+    NeoBundle 'Shougo/neomru.vim'
 
     " インストールされていないプラグインのチェックおよびダウンロード
     NeoBundleCheck
@@ -183,8 +186,6 @@ endif
 "===============================================
 "" Unite
 "===============================================
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neomru.vim'
 "let g:unite_enable_start_insert=1
 let g:unite_source_history_yank_enable =1
 let g:unite_source_file_mru_limit = 200
