@@ -13,6 +13,10 @@ git clone https://github.com/mzyy94/RictyDiminished-for-Powerline.git
 sudo cp -r RictyDiminished-for-Powerline/ /usr/local/share/fonts/  
 fc-cache -fv
 
+# fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+
 mkdir -p ~/.vim/bundle
 git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
 git clone https://github.com/Shougo/vimproc ~/.vim/bundle/vimproc

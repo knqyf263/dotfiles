@@ -1,29 +1,16 @@
 export LANG=ja_JP.UTF-8 
 
+# emacsモード
 bindkey -e
 
 PATH=/usr/local/bin:/usr/local/sbin:$PATH 
 PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting
-PATH=$HOME/bin:$HOME/Documents/workspace/android-sdk-macosx/tools:$HOME/Documents/workspace/android-sdk-macosx/platform-tools:$PATH
-export ANDROID_SDK_PATH=$HOME/Library/Android/sdk
-export ANDROID_SDK_HOME=$ANDROID_SDK_PATH/platform-tools
-export PATH=$ANDROID_SDK_PATH:$ANDROID_SDK_HOME:$PATH
-# All commands have been installed with the prefix 'g'
-PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-export ANDROID_NDK_PATH=/Users/teppei.fukuda/Development/android-ndk-r10e
-export ANDROID_NDK_ROOT=/Users/teppei.fukuda/Development/android-ndk-r10e
-export ANDROID_TOOLCHAIN_ROOT=$HOME/android_toolchains
-export ANDROID_TOOLCHAIN_PATH=$ANDROID_TOOLCHAIN_ROOT/toolchains_mips/bin:$ANDROID_TOOLCHAIN_ROOT/toolchains_x86/bin:$ANDROID_TOOLCHAIN_ROOT/toolchains_arm/bin
-#export ANDROID_TOOLCHAIN_ROOT="$HOME/android_toolchains/toolchains_mips":$ANDROID_TOOLCHAIN_ROOT  
-export PATH=$PATH:$ANDROID_TOOLCHAIN_PATH:$ANDROID_NDK_PATH
 
 ## alias
-alias "ls=gls -G -F --color=auto"
-alias "ll=ls -alh"
-alias -g L='| less'
-alias "airport=/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport"
+alias "ls=ls --color=auto"
+alias "ll=ls -alh --color=auto"
 
-
+# 補完
 autoload -U compinit
 compinit
 
@@ -31,9 +18,6 @@ compinit
 setopt prompt_subst
 PROMPT='%{'$'\e[''$[32+$RANDOM % 5]m%}%U%B%m{%n}%b%{'$'\e[''m%}%U%%%u '
 RPROMPT='%{'$'\e[''33m%}[%~]%{'$'\e[''m%}'
-
-## tmux用プロンプト
-PROMPT="$PROMPT"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
 
 #allow tab completion in the middle of a word
 setopt COMPLETE_IN_WORD
@@ -74,8 +58,7 @@ setopt list_packed
 #エイリアスも補完対象に設定
 setopt complete_aliases
 
-## 履歴検索機能のショートカット設定
-## 編集はカーソルで、履歴はPNで行う
+# 履歴検索機能のショートカット設定
 autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
@@ -84,21 +67,27 @@ bindkey "^n" history-beginning-search-forward-end
 bindkey "\\ep" history-beginning-search-backward-end
 bindkey "\\en" history-beginning-search-forward-end
 
-## カラー表示と文字コード対策
-alias lv="lv -Osjis"
-zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
-export LSCOLORS=gxfxcxdxbxegedabagacad
+# OSによって読み込む設定ファイルを変える
+case "${OSTYPE}" in
+# Mac(Unix)
+darwin*)
+# ここに設定
+	[ -f ~/dotfiles/.zshrc.osx ] && source ~/dotfiles/.zshrc.osx
+	;;
+# Linux
+linux*)
+	# ここに設定
+	[ -f ~/dotfiles/.zshrc.linux ] && source ~/dotfiles/.zshrc.linux
+	;;
+esac
 
-## OSによって読み込む設定ファイルを変える
-#case "${OSTYPE}" in
-## Mac(Unix)
-#darwin*)
-## ここに設定
-#	[ -f ~/dotfiles/.zshrc.osx ] && source ~/dotfiles/.zshrc.osx
-#	;;
-## Linux
-#linux*)
-#	# ここに設定
-#	[ -f ~/dotfiles/.zshrc.linux ] && source ~/dotfiles/.zshrc.linux
-#	;;
-#esac
+# .zsh.d内を読み込む
+ZSHHOME="${HOME}/.zsh.d"
+
+if [ -d $ZSHHOME -a -r $ZSHHOME -a -x $ZSHHOME ]; then
+    for i in $ZSHHOME/*; do
+        [[ ${i##*/} = *.zsh ]] &&
+            [ \( -f $i -o -h $i \) -a -r $i ] && . $i
+    done
+fi
+

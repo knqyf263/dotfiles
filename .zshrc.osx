@@ -1,7 +1,20 @@
-PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
-alias "ll=ls -alh"
-alias "ls=ls -G"
-alias fcd='source ~/bin/fcd.sh'
-alias ctags="`brew --prefix`/bin/ctags"
 
 export LSCOLORS=gxfxcxdxbxegedabagacad
+
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+export PATH=$HOME/bin:$HOME/Documents/workspace/android-sdk-macosx/tools:$HOME/Documents/workspace/android-sdk-macosx/platform-tools:$PATH
+export ANDROID_SDK_PATH=$HOME/Library/Android/sdk
+export ANDROID_SDK_HOME=$ANDROID_SDK_PATH/platform-tools
+export PATH=$ANDROID_SDK_PATH:$ANDROID_SDK_HOME:$PATH
+export ANDROID_NDK_PATH=/Users/teppei.fukuda/Development/android-ndk-r10e
+export ANDROID_NDK_ROOT=/Users/teppei.fukuda/Development/android-ndk-r10e
+export ANDROID_TOOLCHAIN_ROOT=$HOME/android_toolchains
+export ANDROID_TOOLCHAIN_PATH=$ANDROID_TOOLCHAIN_ROOT/toolchains_mips/bin:$ANDROID_TOOLCHAIN_ROOT/toolchains_x86/bin:$ANDROID_TOOLCHAIN_ROOT/toolchains_arm/bin
+#export ANDROID_TOOLCHAIN_ROOT="$HOME/android_toolchains/toolchains_mips":$ANDROID_TOOLCHAIN_ROOT  
+export PATH=$PATH:$ANDROID_TOOLCHAIN_PATH:$ANDROID_NDK_PATH
+
+alias "ls=gls -G -F --color=auto"
+alias "ll=ls -alh"
+alias "airport=/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport"
+alias fcd='source ~/bin/fcd.sh'
+alias ctags="`brew --prefix`/bin/ctags"
