@@ -3,8 +3,12 @@ export LANG=ja_JP.UTF-8
 # emacsモード
 bindkey -e
 
-PATH=/usr/local/bin:/usr/local/sbin:$PATH 
-PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting
+export PATH=/usr/local/bin:/usr/local/sbin:$PATH 
+export PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting
+
+# golang
+export GOPATH=$HOME
+export PATH=$PATH:$GOPATH/bin
 
 ## alias
 alias "ls=ls --color=auto"
