@@ -8,6 +8,7 @@ export PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting
 
 # golang
 export GOPATH=$HOME
+export GOROOT=$(go env GOROOT)
 export PATH=$PATH:$GOPATH/bin
 
 ## alias

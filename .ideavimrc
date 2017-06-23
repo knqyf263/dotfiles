@@ -1,1 +1,12 @@
 imap <c-]> <esc>
+
+"大文字小文字の区別なし
+set ignorecase
+ 
+"検索時に大文字を含んでいたら大/小を区別
+set smartcase
+
+nnoremap <Space>r :action RecentFiles<CR>
+nnoremap <Space>f :action FileStructurePopup<CR>
+nnoremap <Space>u :action FindUsages<CR>
+nnoremap <Space>U :action FindUsagesInFile<CR>
