@@ -81,107 +81,25 @@ filetype off
 
 " コマンドライン補完するときに補完候補を表示する
 set wildmenu
+
+"===============================================
+"" vim-plug
+"===============================================
+
+call plug#begin('~/.vim/plugged')
+Plug 'scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'altercation/vim-colors-solarized'
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/neomru.vim'
+call plug#end()
   
-"===============================================
-"" NeoBundle
-"===============================================
-let s:noplugin = 0
-let s:bundle_root = expand('~/.vim/bundle')
-let s:neobundle_root = s:bundle_root . '/neobundle.vim'
-if !isdirectory(s:neobundle_root) || v:version < 702
-    " NeoBundleが存在しない、もしくはVimのバージョンが古い場合はプラグインを一切読み込まない
-    let s:noplugin = 1
-else
-    " NeoBundleを'runtimepath'に追加し初期化を行う
-    if has('vim_starting')
-        execute "set runtimepath+=" . s:neobundle_root
-    endif
-    call neobundle#begin(s:bundle_root)
-
-    " NeoBundle自身をNeoBundleで管理させる
-    NeoBundleFetch 'Shougo/neobundle.vim'
-
-    " 非同期通信を可能にする
-    " 'build'が指定されているのでインストール時に自動的に指定されたコマンドが実行され vimproc がコンパイルされる
-    NeoBundle "Shougo/vimproc", {
-        \ "build": {
-        \   "windows"   : "make -f make_mingw32.mak",
-        \   "cygwin"    : "make -f make_cygwin.mak",
-        \   "mac"       : "make -f make_mac.mak",
-        \   "unix"      : "make -f make_unix.mak",
-        \ }}
-
-    " originalrepos on github
-    NeoBundle 'Shougo/neocomplete.vim'
-    NeoBundle 'Shougo/neosnippet'
-    NeoBundle 'Shougo/neosnippet-snippets'
-    NeoBundle 'Shougo/vimfiler'
-    NeoBundle 'jpalardy/vim-slime'
-    NeoBundle 'scrooloose/syntastic'
-    NeoBundle 'altercation/vim-colors-solarized'
-    " ステータスラインをカッコよくする
-    NeoBundle 'Lokaltog/vim-powerline'
-    " 自動で閉じる
-    NeoBundle 'tpope/vim-endwise'
-    " Ruby補完
-    NeoBundle 'marcus/rsense'
-"    NeoBundle 'supermomonga/neocomplete-rsense.vim'
-
-    NeoBundle 'Shougo/unite.vim'
-    NeoBundle 'Shougo/neomru.vim'
-
-    " インストールされていないプラグインのチェックおよびダウンロード
-    NeoBundleCheck
-    call neobundle#end()
-endif
 
 "===============================================
 "" プラグイン
 "===============================================
-
-"===============================================
-"" quickrun
-"===============================================
-" Vim上からコードを実行
-NeoBundleLazy "thinca/vim-quickrun", {
-      \ "autoload": {
-      \   "mappings": [['nxo', '<Plug>(quickrun)']]
-      \ }}
-nmap <Leader>r <Plug>(quickrun)
-set splitright " quickrunを右側に表示
-let g:quickrun_config = {'*': {'hook/time/enable': '1'},} " 常に実行時間を表示する
-
-"===============================================
-"" Tagbar
-"===============================================
-NeoBundleLazy "majutsushi/tagbar", {
-      \ "autoload": { "commands": ["TagbarToggle"] }}
-if ! empty(neobundle#get("tagbar"))
-  " Map for toggle
-  nn <silent> <leader>t :TagbarToggle<CR>
-endif
-
-"===============================================
-"" SrcExpl
-"===============================================
-"NeoBundleLazy "wesleyche/SrcExpl", {
-"      \ "autoload" : { "commands": ["SrcExplToggle"]}}
-"if ! empty(neobundle#get("SrcExpl"))
-"  " Set refresh time in ms
-"  let g:SrcExpl_RefreshTime = 1000
-"  " Is update tags when SrcExpl is opened
-"  let g:SrcExpl_isUpdateTags = 1
-"  " Source Explorer Window Height
-"  let g:SrcExpl_winHeight = 14
-"  let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ." 
-"  " Mappings
-"  nn [srce] <Nop>
-"  nm <Space>e [srce]
-"  nn <silent> [srce]t :SrcExplToggle<CR>
-"endif
-
-
-
 
 "===============================================
 "" Unite
@@ -196,7 +114,7 @@ noremap <C-P> :Unite buffer<CR>
 " ファイル一覧
 noremap <C-N> :Unite -buffer-name=file file<CR>
 " 最近使ったファイルの一覧
-noremap <C-M> :Unite file_mru<CR>
+"noremap <C-M> :Unite file_mru<CR>
 " ウィンドウを分割して開く
 au FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
 au FileType unite inoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
@@ -231,26 +149,6 @@ let g:neocomplete#force_omni_input_patterns.ruby = '[^.*\t]\.\w*\|\h\w*::'
 
 
 "===============================================
-" rubocop
-"===============================================
-" syntastic_mode_mapをactiveにするとバッファ保存時にsyntasticが走る
-" active_filetypesに、保存時にsyntasticを走らせるファイルタイプを指定する
-let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
-let g:syntastic_ruby_checkers = ['rubocop']
-
-"===============================================
-" Rsense
-"===============================================
-let g:rsenseHome = "/usr/local/lib/rsense"
-let g:rsenseUseOmniFunc = 1
-
-"===============================================
-"" インデント
-"===============================================
-filetype indent on " ファイル形式検出、プラグイン、インデントを ON  
-filetype plugin indent on   
-
-"===============================================
 "" vimdiffの色設定
 "===============================================
 highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=22
@@ -258,12 +156,3 @@ highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
 highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
 highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
 
-"===============================================
-"" Powerline
-"===============================================
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
-set laststatus=2
-set showtabline=2
-set noshowmode
