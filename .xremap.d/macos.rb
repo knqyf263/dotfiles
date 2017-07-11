@@ -12,3 +12,5 @@ window class_only: 'xfce4-terminal' do
   remap "Super-c", to: "C-Shift-c"
   remap "Super-v", to: "C-Shift-v"
 end
+
+remap "Alt-yen", to: "backslash"
