@@ -7,8 +7,16 @@ do
     ln -s $HOME/dotfiles/$file $HOME/$file
 done
 
+# keyboard （再起動必要）
+defaults write -g KeyRepeat -int 1
+defaults write -g InitialKeyRepeat -int 10
+
+# brew
+brew install argon/mas/mas
+brew bundle
+
 # tmux-powerline
-pip install powerline-status
+pip2 install powerline-status
 git clone https://github.com/powerline/fonts.git 
 fonts/install.sh
 rm -rf fonts
@@ -18,10 +26,9 @@ cp -r /usr/local/lib/python2.7/site-packages/powerline/config_files/* ~/.config/
 # fzf: Install shell extensions
 /usr/local/opt/fzf/install
 
-#mkdir -p ~/.vim/bundle
-#git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
-#git clone https://github.com/Shougo/vimproc ~/.vim/bundle/vimproc
-#
+# vim-plug
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
 ## for tmux-mem-cpu-load
 #git clone https://github.com/thewtex/tmux-mem-cpu-load.git
 #cd ~/dotfiles/tmux-mem-cpu-load/
