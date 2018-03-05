@@ -16,12 +16,12 @@ brew install argon/mas/mas
 brew bundle
 
 # tmux-powerline
-pip2 install powerline-status
+pip3 install powerline-status
 git clone https://github.com/powerline/fonts.git 
 fonts/install.sh
 rm -rf fonts
 mkdir -p ~/.config/powerline
-cp -r /usr/local/lib/python2.7/site-packages/powerline/config_files/* ~/.config/powerline
+cp -r /usr/local/lib/python3.6/site-packages/powerline/config_files/* ~/.config/powerline
 
 # fzf: Install shell extensions
 /usr/local/opt/fzf/install
