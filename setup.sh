@@ -7,6 +7,16 @@ do
     ln -s $HOME/dotfiles/$file $HOME/$file
 done
 
+# Dockを自動的に隠す
+defaults write com.apple.dock autohide -bool true
+
+# タップでクリックを許可
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -int 1
+
+# トラックパッド
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerTapGesture -int 2
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerVertSwipeGesture -int 0
+
 # keyboard （再起動必要）
 defaults write -g KeyRepeat -int 1
 defaults write -g InitialKeyRepeat -int 10
