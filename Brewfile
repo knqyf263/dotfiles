@@ -29,4 +29,7 @@ brew "reattach-to-user-namespace"
 brew "go"
 brew "coreutils"
 brew "pwgen"
+
 brew "kubectl"
+brew "awscli"
+brew "terraform"
