@@ -13,7 +13,6 @@ cask "java" unless system "/usr/libexec/java_home --failfast"
 
 mas "1Password", id: 443987910
 mas "Slack", id: 803453959
-mas "Kobito", id: 896624060
 mas "BetterSnapTool", id: 417375580
 mas "The Unarchiver", id: 425424353
 mas "Keynote", id: 409183694
