@@ -22,7 +22,7 @@ defaults write -g KeyRepeat -int 1
 defaults write -g InitialKeyRepeat -int 10
 
 # brew
-brew install argon/mas/mas
+brew install mas
 brew bundle
 
 # tmux-powerline
