@@ -31,7 +31,7 @@ git clone https://github.com/powerline/fonts.git
 fonts/install.sh
 rm -rf fonts
 mkdir -p ~/.config/powerline
-cp -r /usr/local/lib/python3.6/site-packages/powerline/config_files/* ~/.config/powerline
+cp -r /usr/local/lib/python3.7/site-packages/powerline/config_files/* ~/.config/powerline
 
 # fzf: Install shell extensions
 /usr/local/opt/fzf/install
